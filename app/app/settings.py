@@ -20,12 +20,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '3q_hv)5s4bj(j7==r10_f)w=$o4r3s#m)870g7-4fazfb5y=du'
+SECRET_KEY = 'vhea8h2lxgdbtysj-2(kj-4j%93@p9pz&m62!%fn62487e7i45'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# Redis Path
+REDIS_HOST = 'localhost'
+REDIS_PORT = 7777
 
 
 # Application definition
@@ -37,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'stock'
+    'rest_framework',
+    'api'
 ]
 
 MIDDLEWARE = [
