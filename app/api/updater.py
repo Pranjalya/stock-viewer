@@ -1,4 +1,4 @@
-from datetime import time, datetime, timedelta
+from lxml import html
 import pytz
 from apscheduler.schedulers.background import BackgroundScheduler
 from io import BytesIO
@@ -13,7 +13,6 @@ redis_instance = redis.StrictRedis(
     host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=1, decode_responses=True
 )
 
-BASE_URL = "https://www.bseindia.com/download/BhavCopy/Equity/"
 IST = pytz.timezone("Asia/Kolkata")
 
 # To emulate as browser, since API forbids Python requests
@@ -21,12 +20,18 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36"
 }
 
+BASE_URL = "https://www.bseindia.com/markets/MarketInfo/BhavCopy.aspx"
 
 def _get_file_url(url: str) -> str:
-    _filedate = datetime.now(IST).strftime("%d%m%y")
-    if datetime.now(IST).hour < 18:
-        _filedate = (datetime.now(IST) - timedelta(days=1)).strftime("%d%m%y")
-    return BASE_URL + "EQ{}_CSV.ZIP".format(_filedate)
+    resp = requests.get(url, headers=headers).content
+    root = html.fromstring(resp)
+
+    # Finds the most recently updated link
+    for el in root.xpath('//*[@id="ContentPlaceHolder1_btnhylZip"]'):
+        try:
+            return el.attrib['href']
+        except:
+            raise Exception("File link not available")
 
 
 def get_dataframe(fileurl: str) -> pd.DataFrame:
@@ -46,9 +51,9 @@ def set_to_redis(key, value):
 
 
 def import_data_to_redis():
-    print("Logging file")
-    BASE_URL = "https://www.bseindia.com/download/BhavCopy/Equity/"
-    df = get_dataframe(_get_file_url(BASE_URL))
+    url = _get_file_url(BASE_URL)
+    print("Retrieving file from %s" % url)
+    df = get_dataframe(url)
 
     # Flush database with previous data
     redis_instance.flushdb()
@@ -58,9 +63,11 @@ def import_data_to_redis():
         key = row["SC_NAME"]
         set_to_redis(key, values)
 
+    print("Imported data to Redis")
+
 
 def start():
-    print("started job")
+    print("Job Logged")
     scheduler = BackgroundScheduler(timezone=IST)
-    scheduler.add_job(import_data_to_redis, "cron", hour=16, minute=47)
+    scheduler.add_job(import_data_to_redis, "cron", hour=19, minute=39)
     scheduler.start()

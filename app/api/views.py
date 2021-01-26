@@ -14,18 +14,6 @@ redis_instance = redis.StrictRedis(
 )
 
 @api_view(["GET"])
-def get_stocks(request, *args, **kwargs):
-    if request.method == "GET":
-        items = {}
-        count = 0
-        for key in redis_instance.keys("*"):
-            items[key] = redis_instance.hgetall(key)
-            count += 1
-        response = {"count": count, "msg": f"Found {count} items.", "items": items}
-        return Response(response, status=200)
-
-
-@api_view(["GET"])
 def get_stock_by_prefix(request, *args, **kwargs):
     if request.method == "GET":
         if kwargs["name"]:

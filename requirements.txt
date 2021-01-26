@@ -4,3 +4,4 @@ redis
 apscheduler
 requests
 pandas
+lxml
