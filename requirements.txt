@@ -2,3 +2,5 @@ django
 djangorestframework
 redis
 apscheduler
+requests
+pandas
