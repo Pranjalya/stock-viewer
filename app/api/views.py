@@ -10,7 +10,7 @@ from rest_framework.response import Response
 
 # Connect to our Redis instance
 redis_instance = redis.StrictRedis(
-    host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0
+    host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=1, decode_responses=True
 )
 
 
@@ -20,7 +20,7 @@ def manage_items(request, *args, **kwargs):
         items = {}
         count = 0
         for key in redis_instance.keys("*"):
-            items[key.decode("utf-8")] = redis_instance.get(key)
+            items[key.decode("utf-8")] = redis_instance.hget(key)
             count += 1
         response = {"count": count, "msg": f"Found {count} items.", "items": items}
         return Response(response, status=200)
@@ -70,3 +70,15 @@ def manage_item(request, *args, **kwargs):
             else:
                 response = {"key": kwargs["key"], "value": None, "msg": "Not found"}
                 return Response(response, status=404)
+
+
+@api_view(["GET"])
+def get_stocks(request, *args, **kwargs):
+    if request.method == "GET":
+        items = {}
+        count = 0
+        for key in redis_instance.keys("*"):
+            items[key] = redis_instance.hgetall(key)
+            count += 1
+        response = {"count": count, "msg": f"Found {count} items.", "items": items}
+        return Response(response, status=200)
