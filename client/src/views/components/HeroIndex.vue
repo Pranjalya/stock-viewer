@@ -73,6 +73,7 @@
 </template>
 <script>
 import "vuejs-datatable/dist/themes/bootstrap-4.esm";
+import axios from "axios";
 import { debounce } from "lodash";
 
 export default {
@@ -219,10 +220,13 @@ export default {
   },
   components: {},
   mounted() {
-    this.$datatables.debounced.processRows = debounce(
-      this.$datatables.debounced.processRows,
-      1000
-    );
+    var el = this;
+    axios
+      .get("http://127.0.0.1:8000/api/stocks/")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log);
   },
 };
 </script>
