@@ -13,6 +13,7 @@ redis_instance = redis.StrictRedis(
     host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=1, decode_responses=True
 )
 
+
 @api_view(["GET"])
 def get_stock_by_prefix(request, *args, **kwargs):
     if request.method == "GET":
@@ -28,8 +29,13 @@ def get_stock_by_prefix(request, *args, **kwargs):
                 response = {"key": kwargs["name"], "value": None, "msg": "Not found"}
                 return Response(response, status=404)
             else:
-                response = {"count": count, "msg": f"Found {count} items.", "items": items}
+                response = {
+                    "count": count,
+                    "msg": f"Found {count} items.",
+                    "items": items,
+                }
                 return Response(response, status=200)
+
 
 @api_view(["GET"])
 def get_all_stocks(request, *args, **kwargs):
