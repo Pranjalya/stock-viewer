@@ -42,3 +42,14 @@ python manage.py migrate
 
 6. Set up APScheduler (Advanced Python Scheduler) for scheduling the CRON job of fetching data
 
+
+
+
+## Dockerization
+
+1. Build Docker image
+```
+docker-compose build
+```
+
+2.

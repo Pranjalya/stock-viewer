@@ -3,5 +3,4 @@ djangorestframework
 redis
 apscheduler
 requests
-pandas
 lxml
