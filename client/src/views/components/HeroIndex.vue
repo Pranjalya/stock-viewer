@@ -34,18 +34,17 @@
       <div class="row align-items-center">
         <div class="col-md-12 mb-5 mb-md-0">
           <div class="card shadow border-0">
-            <div class="col-xs-12 col-md-4 form-inline">
+            <br />
+            <div class="col-lg-4 col-sm-6">
               <div class="form-group">
-                <label for="filter" class="sr-only">Filter</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="filter"
-                  placeholder="Filter"
-                  @keydown="$event.stopImmediatePropagation()"
-                />
+                <base-input
+                  placeholder="Search"
+                  addon-left-icon="ni ni-zoom-split-in"
+                >
+                </base-input>
               </div>
             </div>
+            <br />
           </div>
           <br />
           <div class="card card-lift--hover shadow border-0">
