@@ -36,13 +36,15 @@ ALLOWED_HOSTS = []
 REDIS_HOST = "localhost"
 REDIS_PORT = 6379
 
-CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ORIGIN_ALLOW_ALL = (
+    True  # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+)
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:8080',
-] # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`
+    "http://localhost:8080",
+]  # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`
 CORS_ORIGIN_REGEX_WHITELIST = [
-    'http://localhost:8080',
+    "http://localhost:8080",
 ]
 
 # Application definition

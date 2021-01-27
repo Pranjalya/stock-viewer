@@ -18,12 +18,12 @@ redis_instance = redis.StrictRedis(
 def get_stock_by_prefix(request, *args, **kwargs):
     if request.method == "GET":
         if kwargs["name"]:
-            items = {}
+            items = []
             count = 0
             prefix = kwargs["name"].upper()
             match = prefix + "*"
             for key in redis_instance.scan_iter(match=match):
-                items[key] = redis_instance.hgetall(key)
+                items.append(redis_instance.hgetall(key))
                 count += 1
             if len(items) == 0:
                 response = {"key": kwargs["name"], "value": None, "msg": "Not found"}
@@ -40,10 +40,10 @@ def get_stock_by_prefix(request, *args, **kwargs):
 @api_view(["GET"])
 def get_all_stocks(request, *args, **kwargs):
     if request.method == "GET":
-        items = {}
+        items = []
         count = 0
         for key in redis_instance.scan_iter("*"):
-            items[key] = redis_instance.hgetall(key)
+            items.append(redis_instance.hgetall(key))
             count += 1
         if len(items) == 0:
             response = {"key": kwargs["key"], "value": None, "msg": "Not found"}
