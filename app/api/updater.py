@@ -30,7 +30,7 @@ def _get_file_url(url: str) -> str:
     # Finds the most recently updated link
     for el in root.xpath('//*[@id="ContentPlaceHolder1_btnhylZip"]'):
         try:
-            return el.attrib['href']
+            return el.attrib["href"]
         except:
             raise Exception("File link not available")
 
@@ -39,11 +39,15 @@ def get_rows(fileurl: str):
     resp = requests.get(fileurl, headers=headers).content
     with ZipFile(BytesIO(resp)) as zipfile:
         for filename in zipfile.namelist():
-            with zipfile.open(filename, 'r') as f:
+            with zipfile.open(filename, "r") as f:
                 item = TextIOWrapper(f)
                 csvreader = csv.DictReader(item)
                 for row in csvreader:
-                    item = {k: v for k, v in row.items() if k in ["SC_CODE", "SC_NAME", "OPEN", "HIGH", "LOW", "CLOSE"]}
+                    item = {
+                        k: v
+                        for k, v in row.items()
+                        if k in ["SC_CODE", "SC_NAME", "OPEN", "HIGH", "LOW", "CLOSE"]
+                    }
                     yield item
 
 

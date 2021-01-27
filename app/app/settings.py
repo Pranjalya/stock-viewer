@@ -21,7 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", default='vhea8h2lxgdbtysj-2(kj-4j%93@p9pz&m62!%fn62487e7i45')
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", default="vhea8h2lxgdbtysj-2(kj-4j%93@p9pz&m62!%fn62487e7i45"
+)
 
 DEBUG = int(os.environ.get("DEBUG", default=1))
 
@@ -34,6 +36,14 @@ ALLOWED_HOSTS = []
 REDIS_HOST = "localhost"
 REDIS_PORT = 6379
 
+CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8080',
+] # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`
+CORS_ORIGIN_REGEX_WHITELIST = [
+    'http://localhost:8080',
+]
 
 # Application definition
 
@@ -46,6 +56,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "api",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -56,6 +67,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = "app.urls"
