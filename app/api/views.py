@@ -25,8 +25,23 @@ def get_stock_by_prefix(request, *args, **kwargs):
                 items[key] = redis_instance.hgetall(key)
                 count += 1
             if len(items) == 0:
-                response = {"key": kwargs["key"], "value": None, "msg": "Not found"}
+                response = {"key": kwargs["name"], "value": None, "msg": "Not found"}
                 return Response(response, status=404)
             else:
                 response = {"count": count, "msg": f"Found {count} items.", "items": items}
                 return Response(response, status=200)
+
+@api_view(["GET"])
+def get_all_stocks(request, *args, **kwargs):
+    if request.method == "GET":
+        items = {}
+        count = 0
+        for key in redis_instance.scan_iter("*"):
+            items[key] = redis_instance.hgetall(key)
+            count += 1
+        if len(items) == 0:
+            response = {"key": kwargs["key"], "value": None, "msg": "Not found"}
+            return Response(response, status=404)
+        else:
+            response = {"count": count, "msg": f"Found {count} items.", "items": items}
+            return Response(response, status=200)
