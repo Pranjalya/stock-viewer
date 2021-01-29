@@ -1,7 +1,7 @@
 <template>
   <div id="app" v-cloak>
     <hero></hero>
-    <about></about>
+    <!-- <about></about> -->
     <do></do>
     <app-footer></app-footer>
   </div>
@@ -9,7 +9,7 @@
 
 <script>
 import Hero from "./components/Hero";
-import About from "./components/About";
+// import About from "./components/About";
 import Do from "./components/Do";
 import AppFooter from "./components/AppFooter";
 
@@ -17,7 +17,7 @@ export default {
   name: "app",
   components: {
     Hero,
-    About,
+    // About,
     Do,
     AppFooter
   },

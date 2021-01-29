@@ -6,6 +6,7 @@ import VueScrollTo from 'vue-scrollto';
 import Buefy from 'buefy';
 import moment from 'moment';
 
+
 import 'core-js';
 import './assets/styles/main.scss';
 import '../node_modules/@fortawesome/fontawesome-free/js/all.js'
@@ -15,7 +16,7 @@ import store from './store';
 import Separator from './components/Separator';
 
 Vue.use(Buefy, {
-  defaultIconPack: 'fas',
+  defaultIconPack: 'fa',
 });
 Vue.use(VueScrollTo, {
   duration: 1000,

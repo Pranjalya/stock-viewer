@@ -2,14 +2,15 @@
   <header class="nav">
     <div class="container">
       <div class="nav-left">
-        <a class="nav-item"
-          v-scroll-to="'#hero'">
+        <a class="nav-item" v-scroll-to="'#hero'">
           <span class="logo-text">{{ logo }}</span>
         </a>
       </div>
-      <span class="nav-toggle"
-        :class="{'is-active' : isExpanded }"
-        @click="isExpanded = !isExpanded">
+      <span
+        class="nav-toggle"
+        :class="{ 'is-active': isExpanded }"
+        @click="isExpanded = !isExpanded"
+      >
         <span></span>
         <span></span>
         <span></span>
@@ -29,10 +30,10 @@
 
 <script>
 export default {
-  name: 'navbar',
+  name: "navbar",
   data() {
     return {
-      logo: 'Pranjalya Tiwari',
+      logo: "Pranjalya Tiwari",
       isExpanded: false,
     };
   },
@@ -50,7 +51,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .logo-text {
-    text-transform: uppercase;
-  }
+.logo-text {
+  text-transform: uppercase;
+  box-sizing: border-box;
+  font-size: 1rem;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-align: center;
+  font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica, Arial,
+    sans-serif;
+}
 </style>
