@@ -15,7 +15,7 @@ redis_instance = redis.StrictRedis(
 
 
 @api_view(["GET"])
-def get_stock_by_prefix(request, *args, **kwargs):
+def get_stocks_by_prefix(request, *args, **kwargs):
     if request.method == "GET":
         if kwargs["name"]:
             items = []
@@ -44,6 +44,38 @@ def get_stock_by_prefix(request, *args, **kwargs):
                     "items": items[startIndex:endIndex],
                 }
                 return Response(response, status=200)
+
+@api_view(["GET"])
+def get_stocks_by_search_query(request, *args, **kwargs):
+    if request.method == "GET":
+        if kwargs["name"]:
+            items = []
+            count = 0
+            prefix = kwargs["name"].upper()
+            match = "*" + prefix + "*"
+
+            page = int(kwargs["page"])
+            perPage = int(kwargs["perPage"])
+
+            startIndex = (page - 1) * perPage
+            endIndex = page * perPage
+
+            for key in redis_instance.scan_iter(match=match):
+                items.append(redis_instance.hgetall(key))
+                count += 1
+
+            if len(items) == 0 or startIndex > count:
+                response = {"key": kwargs["name"],
+                            "value": None, "msg": "Not found"}
+                return Response(response, status=404)
+            else:
+                response = {
+                    "count": count,
+                    "msg": f"Found {count} items.",
+                    "items": items[startIndex:endIndex],
+                }
+                return Response(response, status=200)
+
 
 
 @api_view(["GET"])
