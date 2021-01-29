@@ -1,5 +1,5 @@
 <template>
-  <section id="do" class="section">
+  <section id="stocktable" class="section">
     <div class="container">
       <div class="columns">
         <div class="column is-10 is-offset-1 has-text-centered">
@@ -16,32 +16,73 @@
         <article class="column do-col panel is-primary is-12 is-fullwidth">
           <p class="panel-heading has-text-centered">Stock Viewer</p>
           <div class="panel-block">
-            <b-button type="is-info" outlined>Export as CSV</b-button>
+            <b-button type="is-info" outlined @click.prevent.stop="exportAsCsv"
+              >Export as CSV</b-button
+            >
           </div>
           <div class="panel-block">
-            <p class="control has-icons-left">
-              <input
-                class="input is-primary"
-                type="text"
-                placeholder="Search"
-              />
-              <span class="icon is-left">
-                <i class="fas fa-search" aria-hidden="true"></i>
-              </span>
-            </p>
+            <b-field grouped>
+              <b-input
+                placeholder="Search the Stock Name by prefix..."
+                type="search"
+                icon="magnify"
+                label="Prefix"
+                lazy
+                v-model="prefix"
+                @keyup.native.enter="loadByPrefix"
+              >
+              </b-input>
+              <p class="control">
+                <b-button
+                  label="Search"
+                  type="is-info"
+                  @click.prevent.stop="loadByPrefix"
+                />
+              </p>
+              <b-input
+                placeholder="Search the Stock Name by text..."
+                type="search"
+                icon="magnify"
+                class="is-right"
+                label="Full Text"
+                expanded
+                lazy
+                v-model="fulltext"
+                @keyup.native.enter="loadByFulltext"
+              >
+              </b-input>
+              <p class="control">
+                <b-button
+                  label="Search"
+                  type="is-info"
+                  @click.prevent.stop="loadByFulltext"
+                />
+              </p>
+              <p class="control">
+                <b-button
+                  label="Clear Search"
+                  type="is-danger"
+                  @click.prevent.stop="clearSearch"
+                />
+              </p>
+              <p class="control">
+                <b-select placeholder="Rows per page" v-model="perPage">
+                  <option v-for="index in 10" :key="index">{{ (parseInt(index)+1)*5 }}</option>
+                </b-select>
+              </p>
+            </b-field>
           </div>
           <div class="panel-block is-fullwidth">
             <b-table
-              class="is-fullwidth"
+              class="is-fullwidth my-table"
               :data="getrows"
               :loading="loading"
               :total="total"
               @page-change="onPageChange"
-              backend-paginated
+              paginated
+              backend-pagination
               :hoverable="true"
-              :paginated="true"
               :per-page="perPage"
-              :current-page.sync="page"
               pagination-position="bottom"
               :default-sort-direction="defaultSortDirection"
               :sort-icon="sortIcon"
@@ -59,7 +100,6 @@
                 field="SC_NAME"
                 label="Stock Name"
                 sortable
-                searchable
                 v-slot="props"
               >
                 <span class="tag is-primary is-medium is-light">
@@ -158,48 +198,12 @@
 import axios from "axios";
 
 export default {
-  name: "do",
+  name: "stock-table",
   data() {
     return {
       data: [],
       loading: false,
       isScrollMode: false,
-      // columns: [
-      //   {
-      //     label: "Stock Code",
-      //     field: "SC_CODE",
-      //     centered: true,
-      //     class: "tag is-success",
-      //   },
-      //   {
-      //     label: "Stock Name",
-      //     field: "SC_NAME",
-      //     centered: true,
-      //     align: "center",
-      //     searchable: true,
-      //   },
-      //   {
-      //     label: "Open",
-      //     field: "OPEN",
-      //     centered: true,
-      //   },
-      //   {
-      //     label: "Close",
-      //     field: "CLOSE",
-      //     centered: true,
-      //   },
-      //   {
-      //     label: "High",
-      //     field: "HIGH",
-      //     centered: true,
-      //   },
-      //   {
-      //     label: "Low",
-      //     field: "LOW",
-      //     centered: true,
-      //     // format: (value) => "£" + value,
-      //   },
-      // ],
       isPaginated: true,
       defaultSortDirection: "asc",
       sortIcon: "arrow-up",
@@ -207,27 +211,128 @@ export default {
       page: 1,
       total: 0,
       perPage: 10,
+      prefix: "",
+      fulltext: "",
+      currentPagination: "all",
     };
   },
   methods: {
     onPageChange(page) {
       this.page = page;
+      switch (this.currentPagination) {
+        case "all":
+          this.loadAllData();
+          break;
+        case "prefix":
+          this.loadByPrefix();
+          break;
+        case "fulltext":
+          this.loadByFulltext();
+          break;
+        default:
+          this.loadAllData();
+      }
+    },
+    alertCustomError() {
+      this.$buefy.dialog.alert({
+        title: "Not Found",
+        message: "Requested table was not found 😞",
+        type: "is-danger",
+        hasIcon: true,
+        icon: "times-circle",
+        iconPack: "fa",
+        ariaRole: "alertdialog",
+        ariaModal: true,
+      });
+    },
+    clearSearch() {
+      this.prefix = "";
+      this.fulltext = "";
       this.loadAllData();
     },
     loadAllData() {
       this.loading = true;
-      var el = this;
+      this.currentPagination = "all";
       axios
-        .get("http://127.0.0.1:8000/api/stocks/")
+        .get(
+          `http://127.0.0.1:8000/api/stocks/page=${this.page}&perPage=${this.perPage}`
+        )
         .then((res) => {
           console.log(res.data);
-          el.total = res.data.count;
-          el.data = res.data.items;
-          el.loading = false;
+          this.total = res.data.count;
+          console.log(this.total);
+          this.data = res.data.items;
+          this.loading = false;
         })
         .catch((err) => {
           console.log(err);
+          this.loading = false;
+          this.alertCustomError();
         });
+    },
+    loadByPrefix() {
+      this.loading = true;
+      this.currentPagination = "prefix";
+      this.fulltext = "";
+      if (this.prefix != "") {
+        axios
+          .get(
+            `http://127.0.0.1:8000/api/stocks/prefix/name=${this.prefix}&page=${this.page}&perPage=${this.perPage}`
+          )
+          .then((res) => {
+            console.log(res.data);
+            this.total = res.data.count;
+            console.log(this.total);
+            this.data = res.data.items;
+            this.loading = false;
+          })
+          .catch((err) => {
+            console.log(err);
+            this.loading = false;
+            this.alertCustomError();
+          });
+      }
+    },
+    loadByFulltext() {
+      this.loading = true;
+      this.currentPagination = "fulltext";
+      this.prefix = "";
+      if (this.fulltext != "") {
+        axios
+          .get(
+            `http://127.0.0.1:8000/api/stocks/search/name=${this.fulltext}&page=${this.page}&perPage=${this.perPage}`
+          )
+          .then((res) => {
+            console.log(res.data);
+            this.total = res.data.count;
+            console.log(this.total);
+            this.data = res.data.items;
+            this.loading = false;
+          })
+          .catch((err) => {
+            console.log(err);
+            this.loading = false;
+            this.alertCustomError();
+          });
+      }
+    },
+    exportAsCsv() {
+      var key = "",
+        text = "";
+      if (this.prefix != "") {
+        key = "prefix";
+        text = this.prefix;
+      } else if (this.fulltext != "") {
+        key = "fulltext";
+        text = this.fulltext;
+      } else {
+        key = "all";
+        text = "o";
+      }
+      window.open(
+        `http://127.0.0.1:8000/api/stocks/download/key=${key}&text=${text}`,
+        "_blank"
+      );
     },
   },
   mounted() {
@@ -238,8 +343,8 @@ export default {
     getrows() {
       return this.data;
     },
-    checkScrollMode() {
-      return this.isScrollMode;
+    getTotal() {
+      return this.total;
     },
   },
 };
@@ -247,7 +352,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "../assets/styles/variables.scss";
-// @import "~buefy/src/scss/buefy";
 
 .panel-block {
   flex-flow: column nowrap;
@@ -265,7 +369,7 @@ export default {
 }
 
 .my-table {
-  min-height: 50rem;
+  min-height: 40rem;
   width: 100%;
 }
 </style>

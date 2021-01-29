@@ -1,24 +1,21 @@
 <template>
   <div id="app" v-cloak>
     <hero></hero>
-    <!-- <about></about> -->
-    <do></do>
+    <stock-table></stock-table>
     <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import Hero from "./components/Hero";
-// import About from "./components/About";
-import Do from "./components/Do";
+import StockTable from "./components/StockTable";
 import AppFooter from "./components/AppFooter";
 
 export default {
   name: "app",
   components: {
     Hero,
-    // About,
-    Do,
+    StockTable,
     AppFooter
   },
 };
