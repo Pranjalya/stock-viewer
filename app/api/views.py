@@ -22,17 +22,26 @@ def get_stock_by_prefix(request, *args, **kwargs):
             count = 0
             prefix = kwargs["name"].upper()
             match = prefix + "*"
+
+            page = int(kwargs["page"])
+            perPage = int(kwargs["perPage"])
+
+            startIndex = (page - 1) * perPage
+            endIndex = page * perPage
+
             for key in redis_instance.scan_iter(match=match):
                 items.append(redis_instance.hgetall(key))
                 count += 1
-            if len(items) == 0:
-                response = {"key": kwargs["name"], "value": None, "msg": "Not found"}
+
+            if len(items) == 0 or startIndex > count:
+                response = {"key": kwargs["name"],
+                            "value": None, "msg": "Not found"}
                 return Response(response, status=404)
             else:
                 response = {
                     "count": count,
                     "msg": f"Found {count} items.",
-                    "items": items,
+                    "items": items[startIndex:endIndex],
                 }
                 return Response(response, status=200)
 
@@ -42,12 +51,25 @@ def get_all_stocks(request, *args, **kwargs):
     if request.method == "GET":
         items = []
         count = 0
+
+        page = int(kwargs["page"])
+        perPage = int(kwargs["perPage"])
+
         for key in redis_instance.scan_iter("*"):
             items.append(redis_instance.hgetall(key))
             count += 1
-        if len(items) == 0:
-            response = {"key": kwargs["key"], "value": None, "msg": "Not found"}
+
+        startIndex = (page - 1) * perPage
+        endIndex = page * perPage
+
+        if len(items) == 0 or startIndex > count:
+            response = {"key": kwargs["key"],
+                        "value": None, "msg": "Not found"}
             return Response(response, status=404)
         else:
-            response = {"count": count, "msg": f"Found {count} items.", "items": items}
+            response = {
+                "count": count,
+                "msg": f"Found {count} items.",
+                "items": items[startIndex:endIndex],
+            }
             return Response(response, status=200)
