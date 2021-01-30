@@ -258,7 +258,7 @@ export default {
       this.currentPagination = "all";
       axios
         .get(
-          `http://127.0.0.1:8000/api/stocks/page=${this.page}&perPage=${this.perPage}`
+          `http://${process.env.VUE_APP_HOST}:${process.env.VUE_APP_PORT}/api/stocks/page=${this.page}&perPage=${this.perPage}`
         )
         .then((res) => {
           this.total = res.data.count;
@@ -278,7 +278,7 @@ export default {
       if (this.prefix != "") {
         axios
           .get(
-            `http://127.0.0.1:8000/api/stocks/prefix/name=${this.prefix}&page=${this.page}&perPage=${this.perPage}`
+            `http://${process.env.VUE_APP_HOST}:${process.env.VUE_APP_PORT}/api/stocks/prefix/name=${this.prefix}&page=${this.page}&perPage=${this.perPage}`
           )
           .then((res) => {
             console.log(res.data);
@@ -301,7 +301,7 @@ export default {
       if (this.fulltext != "") {
         axios
           .get(
-            `http://127.0.0.1:8000/api/stocks/search/name=${this.fulltext}&page=${this.page}&perPage=${this.perPage}`
+            `http://${process.env.VUE_APP_HOST}:${process.env.VUE_APP_PORT}/api/stocks/search/name=${this.fulltext}&page=${this.page}&perPage=${this.perPage}`
           )
           .then((res) => {
             console.log(res.data);
@@ -331,7 +331,7 @@ export default {
         text = "o";
       }
       window.open(
-        `http://127.0.0.1:8000/api/stocks/download/key=${key}&text=${text}`,
+        `http://${process.env.VUE_APP_HOST}:${process.env.VUE_APP_PORT}/api/stocks/download/key=${key}&text=${text}`,
         "_blank"
       );
     },
@@ -339,6 +339,7 @@ export default {
   mounted() {
     this.sr.reveal(".do-col", 250);
     this.loadAllData();
+    console.log(process.env.VUE_APP_HOST, process.env.VUE_APP_PORT)
   },
   computed: {
     getrows() {
