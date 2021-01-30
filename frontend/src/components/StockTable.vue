@@ -7,8 +7,9 @@
           <separator></separator>
           <h2 class="subtitle is-5">
             Check out the daily stock values in the Stock Market, updated every
-            day at 1800 hours IST. Search for the stocks of the companies, and
-            additionally you can download the result in a CSV format too.
+            day at 1800 hours IST. Search for the stocks either by prefix, or
+            search for the keywords in the stock name, and additionally you can
+            download the result in a CSV format too.
           </h2>
         </div>
       </div>
@@ -260,9 +261,7 @@ export default {
           `http://127.0.0.1:8000/api/stocks/page=${this.page}&perPage=${this.perPage}`
         )
         .then((res) => {
-          console.log(res.data);
           this.total = res.data.count;
-          console.log(this.total);
           this.data = res.data.items;
           this.loading = false;
         })

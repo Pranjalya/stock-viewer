@@ -14,16 +14,11 @@ import App from './App';
 import store from './store';
 import Separator from './components/Separator';
 
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-library.add(fas)
-Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(Buefy, {
-  defaultIconPack: 'fas',
+  defaultIconPack: 'fa',
 });
+
 Vue.use(VueScrollTo, {
   duration: 1000,
   offset: 0,

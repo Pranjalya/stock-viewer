@@ -8,13 +8,20 @@
           </div>
           <separator color="white"></separator>
           <h5 class="subtitle is-5">{{ subtitle }}</h5>
-          <h6 class="subtitle is-6"><a href="https://pranjalya.github.io/portfolio" target="_blank">By Pranjalya Tiwari</a></h6>
+          <h6 class="subtitle is-6">
+            <a href="https://pranjalya.github.io/portfolio" target="_blank"
+              >By Pranjalya Tiwari</a
+            >
+          </h6>
         </div>
       </div>
       <div class="hero-foot">
         <div class="container has-text-centered">
           <a v-scroll-to="'#stocktable'">
-            <i class="fa fa-chevron-down scroll-down"></i>
+            <img
+              src="https://img.icons8.com/dusk/64/000000/chevron-down.png"
+              class="scroll-down"
+            />
           </a>
         </div>
       </div>
