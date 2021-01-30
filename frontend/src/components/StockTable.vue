@@ -67,7 +67,9 @@
               </p>
               <p class="control">
                 <b-select placeholder="Rows per page" v-model="perPage">
-                  <option v-for="index in 10" :key="index">{{ (parseInt(index)+1)*5 }}</option>
+                  <option v-for="index in 10" :key="index">
+                    {{ (parseInt(index) + 1) * 5 }}
+                  </option>
                 </b-select>
               </p>
             </b-field>
@@ -345,6 +347,19 @@ export default {
     },
     getTotal() {
       return this.total;
+    },
+  },
+  watch: {
+    perPage(perPage) {
+      this.perPage = perPage;
+      this.page = 1;
+      if (this.prefix != "") {
+        this.loadByPrefix();
+      } else if (this.fulltext != "") {
+        this.loadByFulltext();
+      } else {
+        this.loadAllData();
+      }
     },
   },
 };
