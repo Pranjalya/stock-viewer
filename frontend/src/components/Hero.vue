@@ -8,6 +8,7 @@
           </div>
           <separator color="white"></separator>
           <h5 class="subtitle is-5">{{ subtitle }}</h5>
+          <h6 class="subtitle is-6"><a href="https://pranjalya.github.io/portfolio" target="_blank">By Pranjalya Tiwari</a></h6>
         </div>
       </div>
       <div class="hero-foot">
