@@ -1,15 +1,98 @@
-version: "3.7"
+# version: "3.7"
+
+# services:
+#   app:
+#     build: ./app
+#     command: bash -c "python ./app/manage.py makemigrations && python ./app/manage.py migrate && python manage.py ./app/runserver 0.0.0.0:8000"
+#     volumes:
+#       - ./app/:/usr/src/app/
+#     ports:
+#       - 8000:8000
+#     env_file:
+#       - ./.env
+
+#   redis:
+#       image: "redis:alpine"
+
+# version: "3.6"
+
+# services:
+#   web:
+#     build: ./app
+#     # command: python manage.py runserver 0.0.0.0:8000
+#     command: gunicorn -w 2 -t 180 app.wsgi:application --bind 0.0.0.0:8000
+#     volumes:
+#       - .:/app
+#     expose:
+#       - 8000
+#     env_file: .env
+
+#   redis:
+#     image: redis:alpine
+#     ports:
+#       - 6353:6353
+
+#   frontend:
+#     build: ./frontend
+#     volumes:
+#       - .:/app
+#     ports:
+#       - 8080:8080
+#     depends_on:
+#       - web
+
+#   nginx:
+#     build: ./app/nginx
+#     ports:
+#       - 8000:80
+#     depends_on:
+#       - web
+
+version: "3"
 
 services:
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    image: nginx
+    restart: always
+    # volumes:
+    #   - ./server/static/admin:/usr/share/nginx/html/static/admin
+    ports:
+      - 80:80
+    depends_on:
+      - app
+    command: nginx -g 'daemon off';
+    networks:
+      - nginx_network
+
   app:
-    build: ./app
-    command: bash -c "python ./app/manage.py makemigrations && python ./app/manage.py migrate && python manage.py ./app/runserver 0.0.0.0:8000"
-    volumes:
-      - ./app/:/usr/src/app/
+    container_name: app
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    hostname: app
     ports:
       - 8000:8000
-    env_file:
-      - ./.env
+    volumes:
+      - ./app:/srv/app
+    env_file: .env
+    command: gunicorn app.wsgi -b 0.0.0.0:8000
+    networks:
+      - nginx_network
 
   redis:
-      image: "redis:alpine"
+    container_name: redis
+    image: redis:alpine
+    hostname: redis
+    command: --port 6353
+    ports:
+      - 6353:6353
+    networks:
+      - nginx_network
+
+networks:
+  nginx_network:
+    driver: bridge

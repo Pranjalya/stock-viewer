@@ -4,8 +4,6 @@ import Vue from 'vue';
 import ScrollReveal from 'scrollreveal';
 import VueScrollTo from 'vue-scrollto';
 import Buefy from 'buefy';
-import moment from 'moment';
-
 
 import 'core-js';
 import './assets/styles/main.scss';
@@ -27,7 +25,6 @@ Vue.use(VueScrollTo, {
 
 window.sr = ScrollReveal();
 Vue.component('separator', Separator);
-Vue.prototype.moment = moment;
 Vue.prototype.sr = window.sr;
 
 new Vue({

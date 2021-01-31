@@ -33,18 +33,18 @@ DEBUG = int(os.environ.get("DEBUG", default=1))
 ALLOWED_HOSTS = []
 
 # Redis Path
-REDIS_HOST = "localhost"
-REDIS_PORT = 6379
+REDIS_HOST = os.environ.get("REDIS_HOST", default="0.0.0.0")
+REDIS_PORT = int(os.environ.get("REDIS_PORT", default=6379))
 
 # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8080",
+    "http://0.0.0.0",
 ]  # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`
 CORS_ORIGIN_REGEX_WHITELIST = [
-    "http://localhost:8080",
+    "http://0.0.0.0",
 ]
 
 # Application definition
@@ -92,6 +92,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "app.wsgi.application"
+
+# RQ_QUEUES = {
+# "default": {
+#     "HOST": "redis",
+#     "PORT": "6379",
+#     "URL": os.getenv("REDISPORT", "http://localhost:6379"),  # If you're
+#     "DB": 1,
+#     "DEFAULT_TIMEOUT": 480,
+#   }
+# }
 
 
 # Database

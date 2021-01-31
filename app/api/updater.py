@@ -67,6 +67,7 @@ def import_data_to_redis():
         key = row["SC_NAME"]
         set_to_redis(key, row)
 
+    print(list(redis_instance.scan_iter(match='*')))
     print("Imported data to Redis")
 
 
