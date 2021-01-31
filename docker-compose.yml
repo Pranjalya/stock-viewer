@@ -10,7 +10,7 @@ services:
     container_name: app
     build:
       context: ./app
-      dockerfile: Dockerfile.app
+      dockerfile: Dockerfile
     hostname: app
     ports:
       - 8000:8000

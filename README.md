@@ -1,5 +1,7 @@
 # Stock Viewer
-A web app to check out the latest updates in stock market.
+A web app to check out the latest updates in stock market. Check it out here:
+
+**https://stock-viewer-murex.vercel.app/**
 
 
 **API** : https://www.bseindia.com/markets/MarketInfo/BhavCopy.aspx
@@ -48,4 +50,4 @@ There are a few ways to approach this:
 
 - Dockerized the full stack application
 - This way, the docker images can directly be deployed to any VPS without thinking of any configurations
-- Deployed the containers to Heroku
+- Deployed the full stack application to Vercel [here](https://stock-viewer-murex.vercel.app/).

@@ -11,7 +11,7 @@ ENV PYTHONUNBUFFERED 1
 # install dependencies
 COPY ./requirements.txt /srv/app
 
-RUN apk add --update --virtual .build-deps \
+RUN apk add --update --no-cache --virtual .build-deps \
         g++ \
         python3-dev \
         libxml2 \
