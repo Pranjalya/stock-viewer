@@ -51,12 +51,22 @@
 version: "3"
 
 services:
-  frontend:
-    build: ./frontend
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    image: nginx
+    restart: always
+    # volumes:
+    #   - ./server/static/admin:/usr/share/nginx/html/static/admin
     ports:
-      - '80:80'
-    # depends_on:
-      # - app
+      - 80:80
+    depends_on:
+      - app
+    command: nginx -g 'daemon off';
+    networks:
+      - nginx_network
 
   app:
     container_name: app
@@ -66,13 +76,25 @@ services:
     hostname: app
     ports:
       - 8000:8000
+    volumes:
+      - ./app:/srv/app
     env_file: .env
     command: gunicorn app.wsgi -b 0.0.0.0:8000
+    networks:
+      - nginx_network
     depends_on:
       - redis
 
   redis:
+    container_name: redis
     image: redis:alpine
-    ports:
-      - '6353:6353'
+    hostname: redis
     command: --port 6353
+    ports:
+      - 6353:6353
+    networks:
+      - nginx_network
+
+networks:
+  nginx_network:
+    driver: local
