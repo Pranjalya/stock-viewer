@@ -5,14 +5,12 @@ services:
     build: ./frontend
     ports:
       - '80:80'
-    # depends_on:
-      # - app
 
   app:
     container_name: app
     build:
       context: ./app
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.app
     hostname: app
     ports:
       - 8000:8000

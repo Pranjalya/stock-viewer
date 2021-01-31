@@ -44,44 +44,8 @@ There are a few ways to approach this:
     - API to Download CSV file
 
 
-## For Development
+## Production
 
-### Process
-
-1. Install Redis Server
-```
-sudo apt-get install redis-server
-```
-
-2. Install dependencies
-```
-pip install -r requirements.txt
-```
-
-3. Create new Django Project
-```
-django-admin startproject app
-```
-
-4. Create new Django app
-```
-cd app
-django-admin startapp api
-```
-
-5. Migrate for database safety
-```
-python manage.py migrate
-```
-
-6. Set up APScheduler (Advanced Python Scheduler) for scheduling the CRON job of fetching data at 6 PM IST
-
-7. Build APIs for serving the stock data
-
-
-## Dockerization
-
-1. Build Docker image
-```
-docker-compose build
-```
+- Dockerized the full stack application
+- This way, the docker images can directly be deployed to any VPS without thinking of any configurations
+- Deployed the containers to Heroku
