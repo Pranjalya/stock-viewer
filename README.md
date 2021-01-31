@@ -4,8 +4,6 @@ A web app to check out the latest updates in stock market. Check it out here:
 **https://stock-viewer-murex.vercel.app/**
 
 
-**API** : https://www.bseindia.com/markets/MarketInfo/BhavCopy.aspx
-
 ### Idea behind storing data
 
 There are a few ways to approach this:
@@ -18,7 +16,7 @@ There are a few ways to approach this:
     - **Advantages** : Less memory consumption since only 1 data structure is being used.
     - **Disadvantages** : Increase retrieval time, compared to above as first it matches the pattern with keys and then sorts the data.
 
-**_Because of low resource, and less amount of data to be stored, I went for the second approach as this sorting does not cost much overhead for less number of objects._**
+**_Because of low resource, and less amount of data to be stored, I went for the second approach as this sorting does not cost much overhead for less number of objects, but it could be easily done in other way too._**
 
 ## Frontend
 
