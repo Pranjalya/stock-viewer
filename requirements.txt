@@ -1,0 +1,8 @@
+django
+djangorestframework
+redis
+apscheduler
+requests
+lxml
+django-cors-headers
+gunicorn
