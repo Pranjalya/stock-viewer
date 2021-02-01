@@ -65,6 +65,7 @@ def import_data_to_redis():
     redis_instance.flushdb()
 
     for row in get_rows(url):
+        print(row)
         key = row["SC_NAME"]
         set_to_redis(key, row)
 
