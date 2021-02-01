@@ -62,7 +62,7 @@ def import_data_to_redis():
     print("Retrieving file from %s" % url)
 
     # Flush database with previous data
-    redis_instance.flushdb()
+    # redis_instance.flushdb()
 
     for row in get_rows(url):
         print(row)
@@ -76,6 +76,6 @@ def start():
     print("Job Logged")
     scheduler = BackgroundScheduler(timezone=IST)
     # exec_time = datetime.now()-timedelta(hours=5, minutes=30)
-    scheduler.add_job(import_data_to_redis)
-    scheduler.add_job(import_data_to_redis, "cron", hour=18, replace_existing=True)
+    # scheduler.add_job(import_data_to_redis)
+    scheduler.add_job(import_data_to_redis, "cron", hour=18)
     scheduler.start()

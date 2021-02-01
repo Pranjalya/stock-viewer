@@ -5,6 +5,7 @@ from .views import (
     get_all_stocks,
     get_stocks_by_search_query,
     download_csv,
+    check_api
 )
 
 urlpatterns = {
@@ -22,6 +23,7 @@ urlpatterns = {
         name="stocks_by_query",
     ),
     path("stocks/download/key=<slug:key>&text=<slug:text>/", download_csv, name="download_csv"),
+    path("stocks/test/", check_api, name="check_api"),
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)

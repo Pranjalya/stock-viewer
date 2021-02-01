@@ -19,14 +19,14 @@ redis_instance = redis.StrictRedis(
 @api_view(["GET"])
 def get_stocks_by_prefix(request, *args, **kwargs):
     if request.method == "GET":
-        if kwargs["name"]:
+        if kwargs.get("name", 0):
             items = []
             count = 0
             prefix = kwargs["name"].upper()
             match = prefix + "*"
 
-            page = int(kwargs["page"])
-            perPage = int(kwargs["perPage"])
+            page = int(kwargs.get("page", "1"))
+            perPage = int(kwargs("perPage", "10"))
 
             startIndex = (page - 1) * perPage
             endIndex = page * perPage
@@ -53,14 +53,14 @@ def get_stocks_by_prefix(request, *args, **kwargs):
 @api_view(["GET"])
 def get_stocks_by_search_query(request, *args, **kwargs):
     if request.method == "GET":
-        if kwargs["name"]:
+        if kwargs.get("name", 0):
             items = []
             count = 0
-            prefix = kwargs["name"].upper()
+            prefix = kwargs.get("name", "*").upper()
             match = "*" + prefix + "*"
 
-            page = int(kwargs["page"])
-            perPage = int(kwargs["perPage"])
+            page = int(kwargs.get("page", "1"))
+            perPage = int(kwargs("perPage", "10"))
 
             startIndex = (page - 1) * perPage
             endIndex = page * perPage
@@ -90,8 +90,8 @@ def get_all_stocks(request, *args, **kwargs):
         items = []
         count = 0
 
-        page = int(kwargs["page"])
-        perPage = int(kwargs["perPage"])
+        page = int(kwargs.get("page", "1"))
+        perPage = int(kwargs("perPage", "10"))
 
         for key in redis_instance.scan_iter("*"):
             items.append(redis_instance.hgetall(key))
@@ -103,8 +103,7 @@ def get_all_stocks(request, *args, **kwargs):
         endIndex = page * perPage
 
         if len(items) == 0 or startIndex > count:
-            response = {"key": kwargs["key"],
-                        "value": None, "msg": "Not found"}
+            response = {"value": None, "msg": "Not found"}
             return Response(response, status=404)
         else:
             response = {
@@ -118,7 +117,7 @@ def get_all_stocks(request, *args, **kwargs):
 @api_view(["GET"])
 def download_csv(request, *args, **kwargs):
     if request.method == "GET":
-        if kwargs["key"]:
+        if kwargs.get("key", 0):
             response = HttpResponse(content_type='text/csv')
             response['Content-Disposition'] = 'attachment; filename="export.csv"'
             writer = csv.DictWriter(response, fieldnames=[
@@ -148,3 +147,8 @@ def download_csv(request, *args, **kwargs):
                 return Response(response, status=404)
 
             return response
+
+@api_view(["GET"])
+def check_api(request, *args, **kwargs):
+    if request.method == "GET":
+        return Response({"ans": 2}, status=200)
