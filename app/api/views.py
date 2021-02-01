@@ -12,7 +12,7 @@ import csv
 
 # Connect to our Redis instance
 redis_instance = redis.StrictRedis(
-    host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0, decode_responses=True
+    host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0, decode_responses=True, password='3Lx3b5WAA3Ttf4gnA1OQ34tAYoevvYVH'
 )
 
 
