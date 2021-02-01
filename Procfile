@@ -1,1 +1,1 @@
-web: sh -c 'cd ./app && exec gunicorn app.wsgi:application --log-file -'
+web: sh -c 'cd ./app && exec gunicorn app.wsgi:application --timeout 15 --keep-alive 5 --log-level debug'
