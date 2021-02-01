@@ -30,7 +30,7 @@ DEBUG = int(os.environ.get("DEBUG", default=1))
 # 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
 # ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "app", "frontend"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "app", "frontend", ".herokuapp.com"]
 
 # Redis Path
 REDIS_HOST = os.environ.get("REDIS_HOST", default="0.0.0.0")
