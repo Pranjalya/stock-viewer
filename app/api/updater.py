@@ -74,6 +74,7 @@ def import_data_to_redis():
 def start():
     print("Job Logged")
     scheduler = BackgroundScheduler(timezone=IST)
-    scheduler.add_job(import_data_to_redis, "date", run_date=datetime.now()+timedelta(minutes=1))
+    exec_time = datetime.now()+timedelta(seconds=15)
+    scheduler.add_job(import_data_to_redis, "date", run_date=exec_time)
     scheduler.add_job(import_data_to_redis, "cron", hour=18, replace_existing=True)
     scheduler.start()
