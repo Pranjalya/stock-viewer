@@ -33,8 +33,9 @@ DEBUG = int(os.environ.get("DEBUG", default=1))
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "app", "frontend"]
 
 # Redis Path
-REDIS_HOST = os.environ.get("REDIS_HOST", default="redis-15673.c239.us-east-1-2.ec2.cloud.redislabs.com")
-REDIS_PORT = int(os.environ.get("REDIS_PORT", default=15673))
+REDIS_HOST = os.environ.get("REDIS_HOST", default="0.0.0.0")
+REDIS_PORT = int(os.environ.get("REDIS_PORT", default=6739))
+REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD", default="foo")
 
 # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
 CORS_ORIGIN_ALLOW_ALL = True

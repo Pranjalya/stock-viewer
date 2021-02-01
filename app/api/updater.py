@@ -10,7 +10,7 @@ from django.conf import settings
 import redis
 
 redis_instance = redis.StrictRedis(
-    host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0, decode_responses=True, password='3Lx3b5WAA3Ttf4gnA1OQ34tAYoevvYVH'
+    host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0, decode_responses=True, password=settings.REDIS_PASSWORD
 )
 
 IST = pytz.timezone("Asia/Kolkata")
