@@ -5,6 +5,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from io import BytesIO, TextIOWrapper
 from zipfile import ZipFile
 import requests
+from datetime import datetime, timedelta
 
 from django.conf import settings
 import redis
@@ -73,5 +74,6 @@ def import_data_to_redis():
 def start():
     print("Job Logged")
     scheduler = BackgroundScheduler(timezone=IST)
-    scheduler.add_job(import_data_to_redis, "cron", hour=18)
+    scheduler.add_job(import_data_to_redis, "date", run_date=datetime.now()+timedelta(minutes=1))
+    scheduler.add_job(import_data_to_redis, "cron", hour=18, replace_existing=True)
     scheduler.start()
