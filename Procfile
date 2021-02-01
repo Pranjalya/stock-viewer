@@ -1,1 +1,1 @@
-web: sh -c 'python app/manage.py runserver --noreload'
+web: sh -c 'cd ./app && exec gunicorn app.wsgi:application --log-file -'
