@@ -35,7 +35,7 @@ There are a few ways to approach this:
 - For fetching the latest Stocks ZIP data, following issues and their resolutions were encountered:
     - The ZIP file URL does have a fixed URL format, where only the date changes.
     - But, making a fixed rule to name it could result in error if Stock Markets were closed at any particular day due to any reason.
-    - Hence a better way, which I used is to use a small crawler to get the fixed HTML class which contains the file URL, and fetch that file.
+    - Hence a better way, which I used is to use a small crawler to get the fixed XPath of element which contains the file URL, and fetch that file.
 - The ZIP file is not downloaded as file, but directly read into memory, parsed and its contents stored to Redis database, using a Hashed Set with Stock Name as Key and the Stock object as Value. This ensures better clean-up.
 - Four APIs have been constructed to fetch data:
     - API to fetch all the data
@@ -49,3 +49,14 @@ There are a few ways to approach this:
 - Dockerized the full stack application
 - This way, the docker images can directly be deployed to any VPS without thinking of any configurations
 - Deployed the full stack application to Vercel [here](https://stock-viewer-murex.vercel.app/).
+
+## For checking it out yourself :
+1. Clone the repo
+```
+git clone https://github.com/Pranjalya/stock-viewer
+```
+2. Run the docker-compose
+```
+docker-compose up --build
+```
+3. Open `0.0.0.0` in your browser
