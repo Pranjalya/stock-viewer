@@ -48,15 +48,24 @@ There are a few ways to approach this:
 
 - Dockerized the full stack application
 - This way, the docker images can directly be deployed to any VPS without thinking of any configurations
-- Deployed the full stack application to Vercel [here](https://stock-viewer-murex.vercel.app/).
+- If you want to check the front end application, its deployed to Vercel [here](https://stock-viewer-murex.vercel.app/).
 
 ## For checking it out yourself :
-1. Clone the repo
+1. Either clone the repo
 ```
 git clone https://github.com/Pranjalya/stock-viewer
+cd stock-viewer
+
+OR
+
+Simply download the `.env` file  and `docker-compose.yml` file from this repository in a folder, since the docker images have already been pushed to [Docker Hub](https://hub.docker.com/u/pranjalya).
 ```
 2. Run the docker-compose
 ```
-docker-compose up --build
+docker-compose up -d
 ```
 3. Open `0.0.0.0` in your browser
+
+4. Close the running containers
+```docker-compose down
+```

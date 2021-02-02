@@ -2,15 +2,19 @@ version: "3"
 
 services:
   frontend:
-    build: ./frontend
+    # build: ./frontend
     ports:
       - '80:80'
+    image: pranjalya/stockviewer_frontend
+    depends_on:
+      - app
 
   app:
     container_name: app
-    build:
-      context: ./app
-      dockerfile: Dockerfile
+    # build:
+      # context: ./app
+      # dockerfile: Dockerfile
+    image: pranjalya/stockviewer_app
     hostname: app
     ports:
       - 8000:8000
