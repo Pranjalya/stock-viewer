@@ -68,6 +68,8 @@ OR
 
 Simply download the [`.env` file](https://raw.githubusercontent.com/Pranjalya/stock-viewer/main/.env)  and [`docker-compose.yml` file](https://raw.githubusercontent.com/Pranjalya/stock-viewer/main/docker-compose.yml) from this repository in a folder, since the docker images have already been pushed to [Docker Hub](https://hub.docker.com/u/pranjalya).
 
+The files have also been hosted in [Google Drive](https://drive.google.com/drive/folders/1GpP_cTdVL67limkpu1wgrp3js9KbqSA8?usp=sharing).
+
 2. Run the docker-compose
 ```
 docker-compose up -d
