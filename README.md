@@ -83,3 +83,13 @@ docker-compose up -d
 ```
 docker-compose down
 ```
+
+## Screenshots
+
+- __Landing Page__
+
+![Landing Page](https://raw.githubusercontent.com/Pranjalya/stock-viewer/main/assets/Screenshot%20from%202021-02-02%2013-46-05.png)
+
+- __Stock Table__
+
+![Stock Table](https://raw.githubusercontent.com/Pranjalya/stock-viewer/main/assets/Screenshot%20from%202021-02-02%2013-46-51.png)
