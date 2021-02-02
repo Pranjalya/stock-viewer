@@ -3,6 +3,10 @@ A web app to check out the latest updates in stock market. Check it out here:
 
 **https://stock-viewer-murex.vercel.app/**
 
+*(NOTE: It will show Table not found because backend has not been configured as explained in demo)*
+
+
+
 
 ### Idea behind storing data
 
@@ -51,15 +55,19 @@ There are a few ways to approach this:
 - If you want to check the front end application, its deployed to Vercel [here](https://stock-viewer-murex.vercel.app/).
 
 ## For checking it out yourself :
+
+*(Note: You need to have Docker installed in your system for this)*
+
 1. Either clone the repo
 ```
 git clone https://github.com/Pranjalya/stock-viewer
 cd stock-viewer
+```
 
 OR
 
-Simply download the `.env` file  and `docker-compose.yml` file from this repository in a folder, since the docker images have already been pushed to [Docker Hub](https://hub.docker.com/u/pranjalya).
-```
+Simply download the [`.env` file](https://raw.githubusercontent.com/Pranjalya/stock-viewer/main/.env)  and [`docker-compose.yml` file](https://raw.githubusercontent.com/Pranjalya/stock-viewer/main/docker-compose.yml) from this repository in a folder, since the docker images have already been pushed to [Docker Hub](https://hub.docker.com/u/pranjalya).
+
 2. Run the docker-compose
 ```
 docker-compose up -d
@@ -67,5 +75,6 @@ docker-compose up -d
 3. Open `0.0.0.0` in your browser
 
 4. Close the running containers
-```docker-compose down
+```
+docker-compose down
 ```
